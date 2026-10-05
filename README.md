@@ -1,117 +1,81 @@
-# MatiMitra — Smarter Rotations, Stronger Futures
+# MatiMitra – Smart Precision Agriculture & IoT Telemetry
 
-> **NASA Space Apps Challenge 2026**  
-> **Challenge:** Field Shift: Adapting Farms with NASA Data  
-> **Team Name:** Agora  
+A React + Vite conversion of the original single-file MatiMitra HTML dashboard.
+It includes authentication (demo), farm dashboard, field boundaries, a live Leaflet
+field map with a simulated drone patrol, telemetry analytics and system settings.
 
----
+## Tech stack
 
-## 1. Team Members
+- React 18 + Vite 5
+- React Router 6 (client-side routing)
+- Tailwind CSS 3 (same theme/colours as the original `tailwind.config`)
+- Leaflet + react-leaflet (live map)
+- Chart.js + react-chartjs-2 (charts)
+- Font Awesome (icons) and Plus Jakarta Sans (font), both bundled locally via npm
 
-| Name | Role | Responsibilities |
-|---|---|---|
-| **Nafeeza Noor** | Team Lead & Frontend Developer | UI/UX Architecture, React.js Frontend, NASA Layer Visualizations |
-| **Md. Maraz** | Backend Developer & Researcher | System Architecture, REST API (Laravel), NASA Data Pipeline & Scoring Engine |
-| **Elti Rahman** | Researcher & Storyteller | Domain Research, Agricultural Impact Analysis, Project Narrative & Documentation |
-| **Utsha Datta** | Video Editor & Designer | Presentation Video, Media Assets, Visual Design & Branding |
+## Getting started
 
----
+Requires Node.js 18+.
 
-## 2. Executive Summary
+```bash
+npm install
+npm run dev
+```
 
-### Problem Statement
-Farmers across Bangladesh confront intensifying climate hazards—irregular monsoons, erratic rainfall, groundwater depletion, salinity intrusion in coastal belts, recurring floods, and seasonal heat stress. 
+Open the URL printed in the terminal (usually http://localhost:5173).
 
-Despite the urgency of building climate resilience, smallholder farmers lack accessible, hyper-localized insights combining real-time environmental metrics, soil parameters, and crop phenology. Consequently, seasonal crop planning relies predominantly on legacy practices or isolated local advice. This leads to unsustainable water extraction, rapid soil nutrient depletion, and heightened vulnerability to extreme weather shocks.
+Other scripts:
 
-The central barrier is not a lack of data, but data accessibility: translating high-dimensional Earth observation observations and national agro-ecological data into actionable, field-level crop rotation guidance.
+```bash
+npm run build     # production build into dist/
+npm run preview   # serve the production build locally
+```
 
-### Our Solution
-**MatiMitra** (*Friend of the Soil*) is an intelligent decision-support system designed to empower Bangladeshi farmers and agricultural extension officers with climate-resilient, site-specific crop rotation strategies.
+## Routes
 
-By synthesizing NASA Earth Observation (EO) datasets with authoritative Bangladesh agricultural repositories, MatiMitra delivers prioritized, multi-season crop rotation alternatives tailored to specific field coordinates, current cultivation practices, and individual farmer goals.
+| Path         | Page                      |
+| ------------ | ------------------------- |
+| `/`          | Overview & Summary        |
+| `/dashboard` | Farm Dashboard            |
+| `/fields`    | Fields & Boundaries       |
+| `/live-map`  | Live Field Location       |
+| `/analytics` | Telemetry Analytics       |
+| `/settings`  | System Settings           |
 
----
+## Project structure
 
-## 3. Data Integration Matrix
+```text
+├── public/                 favicon
+├── src/
+│   ├── assets/             local images (hero background)
+│   ├── components/         layout, auth, common, landing, dashboard, fields, map, analytics, settings
+│   ├── context/            AuthContext, NotificationContext
+│   ├── data/               field data, chart configs, overview content
+│   ├── hooks/              useFilteredFields
+│   ├── layouts/            AppLayout (header + sidebar + routed content)
+│   ├── pages/              one component per route
+│   ├── styles/             Leaflet dark-theme overrides
+│   ├── utils/              status colours, Chart.js registration
+│   ├── App.jsx             route table
+│   ├── main.jsx            entry point
+│   └── index.css           Tailwind layers, base + scrollbar styles
+├── index.html
+├── tailwind.config.js
+├── postcss.config.js
+└── vite.config.js
+```
 
-MatiMitra bridges planetary-scale satellite observations with hyper-local agricultural databases:
+## Notes
 
-### NASA Earth Observations
-| Satellite / Mission | Dataset | Application in MatiMitra |
-|---|---|---|
-| **NASA POWER** | Surface Temperature, Relative Humidity, Solar Radiation | Agro-climatology baseline & seasonal thermal comfort indices |
-| **GPM (IMERG)** | Precipitation Estimates | Historical rainfall patterns, drought monitoring, wet-spell tracking |
-| **SMAP** | L4 Surface & Root-Zone Soil Moisture | Water stress detection, root-zone saturation, irrigation scheduling |
-| **MODIS / VIIRS** | NDVI & EVI (Vegetation Indices) | Historical crop vigor, biomass dynamics, regional phenology curves |
+- **Authentication is a front-end demo only.** There is no backend; any email/password
+  is accepted. Only `{ name, email, role }` is stored in `localStorage`
+  (key `matimitra_user`) – the password is never stored.
+- **Environment variables:** none are required. Map tiles come from public CARTO and
+  Esri tile servers, so an internet connection is needed for the map background.
+  If you later add an API or key, put it in a `.env` file (git-ignored) and commit
+  a `.env.example` with placeholder values. Vite only exposes variables prefixed with `VITE_`.
 
-### National Agricultural Datasets (Bangladesh)
-- **BARC (Bangladesh Agricultural Research Council):** Agro-Ecological Zones (AEZ) and land suitability ratings.
-- **SRDI (Soil Resource Development Institute):** Soil texture, salinity indicators, pH, and organic matter content.
-- **BRRI & BARI:** Crop variety data, phenological stages, drought/salinity tolerances, and yield profiles.
-- **BBS (Bangladesh Bureau of Statistics):** District/Upazila-level historical yield and market dynamics.
+## Deploying
 
----
-
-## 4. Multi-Factor Evaluation Engine
-
-Rather than returning an opaque, single-crop recommendation, MatiMitra processes input variables through a weighted scoring matrix to output **ranked rotation strategies accompanied by transparent rationales**:
-
-$$\text{Strategy Score} = \sum (W_i \times S_i)$$
-
-Where evaluations calculate:
-- **Climate Suitability:** Thermal and radiative thresholds across Kharif-1, Kharif-2, and Rabi seasons.
-- **Water & Irrigation Balance:** Rainfall forecasts matched against crop evapotranspiration ($ET_c$) and root-zone moisture.
-- **Soil Restoration Potential:** Legume-based nitrogen fixation cycles, biomass return, and nutrient-depletion offsets.
-- **Risk Mitigation:** Salinity threshold buffers, flood-escape timing, and drought-hardiness.
-- **Farmer Objective Alignment:** Custom weighting based on user-selected priorities (e.g., maximum profit, water conservation, risk aversion, soil recovery).
-
----
-
-## 5. System Architecture & Tech Stack
-┌────────────────────────────────────────────────────────┐
-│                   Client Layer (SPA)                   │
-│       React.js • Tailwind CSS • Leaflet / Mapbox       │
-└───────────────────────────▲────────────────────────────┘
-│
-│ HTTPS / REST API (JSON)
-│
-┌───────────────────────────▼────────────────────────────┐
-│                  Application Layer                     │
-│                     PHP / Laravel                      │
-│   ┌──────────────────────┐    ┌────────────────────┐   │
-│   │  Auth & User State   │    │  Rotation Engine   │   │
-│   └──────────────────────┘    └────────────────────┘   │
-│   ┌──────────────────────┐    ┌────────────────────┐   │
-│   │  NASA Ingestion Job  │    │  Scoring & Ranking │   │
-│   └──────────────────────┘    └────────────────────┘   │
-└─────────────┬────────────────────────────┬─────────────┘
-│                            │
-┌─────────────▼──────────────┐   ┌─────────▼─────────────┐
-│       Persistence          │   │   External Services   │
-│   MySQL 8 (Geo-indexed)    │   │  • NASA POWER / GPM   │
-│   Redis (Caching layers)   │   │  • BARC / SRDI APIs   │
-└────────────────────────────┘   └───────────────────────┘
-### Stack Breakdown
-- **Frontend:** React.js, Tailwind CSS, Lucide Icons, interactive geospatial mapping (Leaflet).
-- **Backend:** PHP / Laravel (Modular architecture with Service-Repository pattern, scheduled workers for data sync).
-- **Database:** MySQL (relational schema storing crop parameters, AEZ bounds, user configurations, and cached climate values).
-- **API Interface:** Stateless RESTful APIs returning normalized responses with localized field explanations (Bangla & English).
-
----
-
-## 6. End-to-End Data Pipeline
-
-1. **User Input & Geo-Contextualization:** The farmer selects field coordinates on an interactive map or provides Upazila/Union details, along with current crops, water source, and primary seasonal goals.
-2. **Telemetry Ingestion:** The Laravel backend queries cached NASA POWER and GPM feeds for the bounding coordinate box alongside SRDI soil benchmarks.
-3. **Data Normalization & AEZ Mapping:** Raw meteorological values are converted into seasonal averages, anomaly indices, and cumulative precipitation metrics matched against local AEZ classes.
-4. **Scoring & Heuristic Evaluation:** The multi-criteria decision algorithm computes suitability scores for viable multi-season rotation sequences (e.g., *Aus Rice → Blackgram → Mustard* vs. *Boro Rice → Fallow → T. Aman*).
-5. **Insights Delivery:** The frontend renders interactive rotation cards showing overall score, water savings percentage, expected soil benefit, risk indicators, and simple plain-language guidance.
-
----
-
-## 7. Local Impact & Sustainability
-
-- **Groundwater Preservation:** Reduces excessive extraction in vulnerable Boro-heavy zones by highlighting low-water alternate Rabi crops (pulses, oilseeds).
-- **Soil Conservation:** Encourages systematic inclusion of legumes and green manures to replenish organic matter in depleted topsoils.
-- **Climate Adaptation:** Provides actionable buffers against unpredictable monsoon onsets and late-season heat stress for smallholders.
+`npm run build` outputs static files to `dist/`. For hosts such as Netlify, Vercel or
+GitHub Pages, configure a fallback to `index.html` so client-side routes work on refresh.
