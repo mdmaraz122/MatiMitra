@@ -10,7 +10,7 @@
 
 | Name | Role | Responsibilities |
 |---|---|---|
-| **Nafiza Noor** | Team Lead & Frontend Developer | UI/UX Architecture, React.js Frontend, NASA Layer Visualizations |
+| **Nafeeza Noor** | Team Lead & Frontend Developer | UI/UX Architecture, React.js Frontend, NASA Layer Visualizations |
 | **Md. Maraz** | Backend Developer & Researcher | System Architecture, REST API (Laravel), NASA Data Pipeline & Scoring Engine |
 | **Elti Rahman** | Researcher & Storyteller | Domain Research, Agricultural Impact Analysis, Project Narrative & Documentation |
 | **Utsha Datta** | Video Editor & Designer | Presentation Video, Media Assets, Visual Design & Branding |
