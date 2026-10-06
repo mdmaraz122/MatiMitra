@@ -1,4 +1,4 @@
-# MatiMitra – Smart Precision Agriculture & IoT Telemetry
+# MatiMitra – Smart Precision Agriculture
 
 A React + Vite conversion of the original single-file MatiMitra HTML dashboard.
 It includes authentication (demo), farm dashboard, field boundaries, a live Leaflet
